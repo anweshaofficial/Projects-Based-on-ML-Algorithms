@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Divider</title>
+</head>
+<body>
+    <h1>Income Divider</h1>
+    <input type="number" id="income" placeholder="Enter your income">
+    <button onclick="sendIncome()">Submit</button>
+
+    <h2>Results:</h2>
+    <p>Investments: <span id="investments"></span></p>
+    <p>Expenditure: <span id="expenditure"></span></p>
+    <p>Savings: <span id="savings"></span></p>
+
+    <script>
+        async function sendIncome() {
+            const income = document.getElementById('income').value;
+            const response = await fetch('http://127.0.0.1:5000/process_income', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ income: parseFloat(income) })
+            });
+            const data = await response.json();
+            document.getElementById('investments').innerText = data.investments;
+            document.getElementById('expenditure').innerText = data.expenditure;
+            document.getElementById('savings').innerText = data.savings;
+        }
+    </script>
+</body>
+</html>
